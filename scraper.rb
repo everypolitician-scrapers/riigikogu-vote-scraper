@@ -56,7 +56,7 @@ def rollcall(id)
   end
 end
 
-vote_dates(2014).sort.reverse.take(1).each do |day|
+vote_dates(2014).sort.reverse.each do |day|
   day_votes(day).compact.each do |vote|
 
     unless (ScraperWiki.select('* FROM data WHERE voteid=?', vote[:id]).empty? rescue true) 
