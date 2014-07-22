@@ -26,8 +26,8 @@ def day_votes(date)
       time: link.text,
       id: link['href'][/hid=([\w\-]+)/,1],
       sisu: row[5].text,
-      eelnõu: row[6].text,
-      eelnõu_id: ((row[6].at('a') || {})['href'] || "")[/eid=([\w\-]+)/,1],
+      eelnou: row[6].text,
+      oelnou_id: ((row[6].at('a') || {})['href'] || "")[/eid=([\w\-]+)/,1],
     }
   end
 end
@@ -66,8 +66,8 @@ vote_dates(2014).sort.reverse.take(1).each do |day|
     data = {
       voteid: vote[:id],
       time: "#{day} #{vote[:time]}",
-      context: vote[:eelnõu],
-      context_src: vote[:eelnõu_id],
+      context: vote[:eelnou],
+      context_src: vote[:eelnou_id],
       classification: vote[:sisu],
     }
     puts "Adding #{vote[:id]}"
