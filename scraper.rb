@@ -50,8 +50,8 @@ def vote_option (str)
   return 'yes' if str == 'poolt'
   return 'no' if str == 'vastu'
   return 'abstain' if str == 'erapooletu'
-  return 'present' if str == 'ei hääletanud'
   return 'absent' if str == 'puudub'
+  return 'present' if str =~ /ei h.*letanud/
   raise "Unknown vote option: #{str}"
 end
 
