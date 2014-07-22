@@ -27,21 +27,7 @@ def day_votes(date)
       id: link['href'][/hid=([\w\-]+)/,1],
       sisu: row[5].text,
       eelnou: row[6].text,
-      oelnou_id: ((row[6].at('a') || {})['href'] || "")[/eid=([\w\-]+)/,1],
-    }
-  end
-end
-
-@ROLL = 'http://www.riigikogu.ee/index.php?op=ems&page=haaletus&hid=%s&op2=print'
-def rollcall(id)
-  doc = Nokogiri::HTML(open(@ROLL % id).read)
-  doc.css('table.List tr').drop(1).map do |tr|
-    row = tr.css('td')
-    {
-      voteid: id,
-      voter: row[1].text,
-      option: row[2].text,
-      grouping: row[3].text,
+      eelnou_id: ((row[6].at('a') || {})['href'] || "")[/eid=([\w\-]+)/,1],
     }
   end
 end
@@ -53,6 +39,20 @@ def vote_option (str)
   return 'absent' if str == 'puudub'
   return 'present' if str =~ /ei h.*letanud/
   raise "Unknown vote option: #{str}"
+end
+
+@ROLL = 'http://www.riigikogu.ee/index.php?op=ems&page=haaletus&hid=%s&op2=print'
+def rollcall(id)
+  doc = Nokogiri::HTML(open(@ROLL % id).read)
+  doc.css('table.List tr').drop(1).map do |tr|
+    row = tr.css('td')
+    {
+      voteid: id,
+      voter: row[1].text,
+      option: vote_option(row[2].text),
+      grouping: row[3].text,
+    }
+  end
 end
 
 vote_dates(2014).sort.reverse.take(1).each do |day|
