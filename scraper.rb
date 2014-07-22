@@ -37,7 +37,8 @@ def vote_option (str)
   return 'no' if str == 'vastu'
   return 'abstain' if str == 'erapooletu'
   return 'absent' if str == 'puudub'
-  return 'present' if str =~ /ei h.*letanud/
+  return 'present' if str == 'kohal'
+  return 'novote' if str =~ /ei h.*letanud/
   raise "Unknown vote option: #{str}"
 end
 
